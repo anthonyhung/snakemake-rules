@@ -1,0 +1,14 @@
+
+rule all:
+    input:
+        expand("fq/sam{sample}.fastq", \
+               sample = range(1, 4 + 1))
+
+rule unzip:
+    input:
+        expand("fqgz/sam{{sample}}-rep{replicate}.fastq.gz", \
+               replicate = range(1, 2 + 1))
+    output:
+        "fq/sam{sample}.fastq"
+    shell:
+        "touch {output}"

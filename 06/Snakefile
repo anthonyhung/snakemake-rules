@@ -1,0 +1,42 @@
+
+# Obtain the samples to be processed directly from the input FASTQ files                        
+variables = glob_wildcards("fqgz/sam{sample}-rep{replicate}-lane{lane}.fastq.gz")
+samples = variables.sample
+replicates = variables.replicate
+lanes = variables.lane
+
+# Map lanes to each combination of sample and replicate
+from collections import defaultdict
+mapping = defaultdict(list)
+for i in range(len(samples)):
+    mapping[(samples[i], replicates[i])].append(lanes[i])
+ 
+def group_per_lane(wc):
+    'Group the samples across lanes.'
+    pattern = "fq/sam{sample}-rep{replicate}-lane{{lane}}.fastq"
+    files = expand(pattern.format(cond = wc.cond, cage = wc.cage),
+                   lane = mapping[(wc.sample, wc.replicate)])
+    import pdb; pdb.set_trace()
+    return files
+
+rule all:
+    input:
+        expand("fq/sam{sample}-rep{replicate}.fastq", \
+               sample = range(1, 4 + 1), \
+               replicate = range(1, 2 + 1))
+
+rule unzip:
+    input:
+        "fqgz/{filename}.fastq.gz"
+    output:
+        "fq/{filename}.fastq"
+    shell:
+        "ls {input} > {output}"
+
+rule group:
+    input:
+        group_per_lane
+    output:
+        "fq/sam{sample}-rep{replicate}.fastq"
+    shell:
+        "ls {input} > {output}"

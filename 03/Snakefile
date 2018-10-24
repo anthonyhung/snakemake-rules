@@ -1,0 +1,15 @@
+
+rule all:
+    input: "fq/combined.fastq"
+
+rule unzip:
+    input: "fqgz/sam{sample}-rep{replicate}.fastq.gz"
+    output: "fq/sam{sample}-rep{replicate}.fastq"
+    shell: "touch {output}"
+
+rule combine:
+    input: expand("fq/sam{sample}-rep{replicate}.fastq", \
+                  sample = range(1, 4 + 1), \
+                  replicate = range(1, 2 + 1))
+    output: "fq/combined.fastq"
+    shell: "touch {output}"

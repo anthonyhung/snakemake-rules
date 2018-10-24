@@ -1,0 +1,22 @@
+
+def group_per_lane(wc):
+    'Group the samples across lanes.'
+    pattern = "fqgz/sam{sample}-rep{replicate}-lane{{lane}}.fastq.gz"
+    unknowns = glob_wildcards(pattern.format(sample = wc.sample, replicate = wc.replicate))
+    files = expand(pattern.format(sample = wc.sample, replicate = wc.replicate),
+                   zip, lane = unknowns.lane)
+    return files
+
+rule all:
+    input:
+        expand("fq/sam{sample}-rep{replicate}.fastq", \
+               sample = range(1, 4 + 1), \
+               replicate = range(1, 2 + 1))
+
+rule unzip:
+    input:
+        group_per_lane
+    output:
+        "fq/sam{sample}-rep{replicate}.fastq"
+    shell:
+        "ls {input} > {output}"

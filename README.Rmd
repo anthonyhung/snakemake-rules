@@ -1,0 +1,149 @@
+---
+output:
+  github_document:
+    toc: true
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = FALSE,
+  comment = ""
+)
+```
+# snakemake-rules
+
+
+## 1 to 1
+
+```{bash}
+bash 01/setup.sh
+ls 01/fqgz
+```
+
+```{bash, include=FALSE}
+snakemake -s 01/Snakefile --dag | dot -Tpng > 01/01.png
+```
+
+![dag](01/01.png)
+
+
+```{bash}
+snakemake -s 01/Snakefile
+```
+
+```{bash}
+ls 01/fq
+```
+
+```{bash}
+snakemake -s 01/Snakefile
+```
+
+## Many to many
+
+```{bash}
+bash 02/setup.sh
+ls 02/fqgz
+```
+
+```{bash, include=FALSE}
+snakemake -s 02/Snakefile --dag | dot -Tpng > 02/02.png
+```
+
+![dag](02/02.png)
+
+
+```{bash}
+snakemake -s 02/Snakefile
+```
+
+```{bash}
+ls 02/fq
+```
+
+```{bash}
+snakemake -s 02/Snakefile
+```
+
+## Many to one
+
+```{bash}
+bash 03/setup.sh
+ls 03/fqgz
+```
+
+```{bash, include=FALSE}
+snakemake -s 03/Snakefile --dag | dot -Tpng > 03/03.png
+```
+
+![dag](03/03.png)
+
+
+```{bash}
+snakemake -s 03/Snakefile
+```
+
+```{bash}
+ls 03/fq
+```
+
+```{bash}
+snakemake -s 03/Snakefile
+```
+
+## Group on a known variable
+
+```{bash}
+bash 04/setup.sh
+ls 04/fqgz
+```
+
+```{bash, include=FALSE}
+snakemake -s 04/Snakefile --dag | dot -Tpng > 04/04.png
+```
+
+![dag](04/04.png)
+
+
+```{bash}
+snakemake -s 04/Snakefile
+```
+
+```{bash}
+ls 04/fq
+```
+
+```{bash}
+snakemake -s 04/Snakefile
+```
+
+## Group on an unknown variable (stable input files)
+
+```{bash}
+bash 05/setup.sh
+ls 05/fqgz
+```
+
+```{bash, include=FALSE}
+snakemake -s 05/Snakefile --dag | dot -Tpng > 05/05.png
+```
+
+![dag](05/05.png)
+
+
+```{bash}
+snakemake -s 05/Snakefile
+```
+
+```{bash}
+ls 05/fq
+```
+
+```{bash}
+snakemake -s 05/Snakefile
+```
+
+## Group on an unknown variable (generated input files)
+

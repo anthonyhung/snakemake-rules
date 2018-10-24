@@ -1,0 +1,6 @@
+
+
+rule unzip:
+    input: "fqgz/sam01-rep1-lane1.fastq.gz"
+    output: "fq/sam01-rep1-lane1.fastq"
+    shell: "touch {output}"
