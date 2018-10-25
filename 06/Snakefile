@@ -14,14 +14,13 @@ for i in range(len(samples)):
 def group_per_lane(wc):
     'Group the samples across lanes.'
     pattern = "fq/sam{sample}-rep{replicate}-lane{{lane}}.fastq"
-    files = expand(pattern.format(cond = wc.cond, cage = wc.cage),
+    files = expand(pattern.format(sample = wc.sample, replicate = wc.replicate),
                    lane = mapping[(wc.sample, wc.replicate)])
-    import pdb; pdb.set_trace()
     return files
 
 rule all:
     input:
-        expand("fq/sam{sample}-rep{replicate}.fastq", \
+        expand("fq-group/sam{sample}-rep{replicate}.fastq", \
                sample = range(1, 4 + 1), \
                replicate = range(1, 2 + 1))
 
@@ -37,6 +36,6 @@ rule group:
     input:
         group_per_lane
     output:
-        "fq/sam{sample}-rep{replicate}.fastq"
+        "fq-group/sam{sample}-rep{replicate}.fastq"
     shell:
         "ls {input} > {output}"

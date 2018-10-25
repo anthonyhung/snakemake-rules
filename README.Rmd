@@ -147,3 +147,27 @@ snakemake -s 05/Snakefile
 
 ## Group on an unknown variable (generated input files)
 
+
+```{bash}
+bash 06/setup.sh
+ls 06/fqgz
+```
+
+```{bash, include=FALSE}
+snakemake -s 06/Snakefile --dag | dot -Tpng > 06/06.png
+```
+
+![dag](06/06.png)
+
+
+```{bash}
+snakemake -s 06/Snakefile
+```
+
+```{bash}
+ls 06/fq-group
+```
+
+```{bash}
+snakemake -s 06/Snakefile
+```
